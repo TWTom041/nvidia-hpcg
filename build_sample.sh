@@ -19,7 +19,7 @@ export CXX_PATH=/usr
 export PATH=${CXX_PATH}/bin:${PATH}
 
 if [[ -z "${MPI_PATH}" ]]; then
-    export MPI_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/mpi #Change this to correct MPI path
+    export MPI_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/12.4/hpcx/hpcx-2.19/ompi #Change this to correct MPI path
 fi
 
 if [[ -z "${MATHLIBS_PATH}" ]]; then
