@@ -70,6 +70,8 @@ else
     ../configure CUDA_X86
 fi
 
+module load nvhpc
+
 make -j 16 \
     USE_CUDA=${USE_CUDA} \
     USE_GRACE=${USE_GRACE} \
