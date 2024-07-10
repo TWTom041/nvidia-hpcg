@@ -64,5 +64,4 @@ module load nvhpc
 #---------#
 np=16  #Total number of ranks
 mpirun -np $np ${dir}/hpcg.sh  --exec-name ${dir}/xhpcg \
- --b 0 --p2p 4 --dat ./HPCG.dat \
- --mem-affinity 0:1:2:3 --cpu-affinity 0-71:72-143:144-215:216-287
+ --b 0 --p2p 4 --dat ./HPCG.dat
