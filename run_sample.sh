@@ -19,23 +19,23 @@ export CXX_PATH=/usr
 export PATH=${CXX_PATH}/bin:${PATH}
 
 if [[ -z "${MPI_PATH}" ]]; then
-    export MPI_PATH=/path/to/mpi #Change this to correct MPI path
+    export MPI_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/12.4/hpcx/hpcx-2.19/ompi #Change this to correct MPI path
 fi
 
-if [[ -z "${CUDA_PATH}" ]]; then
-    export MATHLIBS_PATH=/path/to/mathlibs #Change this to correct CUDA mathlibs
+if [[ -z "${MATHLIBS_PATH}" ]]; then
+    export MATHLIBS_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/math_libs #Change this to correct CUDA mathlibs
 fi
 
 if [[ -z "${NCCL_PATH}" ]]; then
-    export NCCL_PATH=/path/to/nccl #Change to correct NCCL path
+    export NCCL_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/nccl #Change to correct NCCL path
 fi
 
 if [[ -z "${CUDA_PATH}" ]]; then
-    export CUDA_PATH=/path/to/cuda #Change this to correct CUDA path
+    export CUDA_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda #Change this to correct CUDA path
 fi
 
-if [[ -z "${NVPL_SPARSE}" ]]; then
-    export NVPL_SPARSE=/path/to/nvpllibs #Change this to correct NVPL mathlibs
+if [[ -z "${NVPL_SPARSE_PATH}" ]]; then
+    export NVPL_SPARSE_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/math_libs/12.4/targets/x86_64-linux #Change this to correct NVPL mathlibs
 fi
 
 #Please fix, if needed
@@ -51,16 +51,6 @@ ext="--mca pml ^ucx --mca btl ^openib,smcuda -mca coll_hcoll_enable 0 -x coll_hc
 #Directory to xhpcg binary
 dir="bin/"
 
-#Sample on a Hopper GPU x86
-###########################
-#Local problem size
-nx=512 #Large problem size x
-ny=512 #Large problem size y
-nz=288 #Large problem size z
-mpirun --oversubscribe ${ext} -np 1 ${dir}/hpcg.sh  --exec-name ${dir}/xhpcg \
- --nx $nx --ny $ny --nz $nz --rt 10 --b 0
-########################################################################################
-
 #Sample on Grace Hopper x4
 ###########################
 #Local problem size
@@ -70,30 +60,7 @@ nz=288 #Large problem size z, assumed for the GPU
 
 #1 GPUOnly
 #---------#
-np=4  #Total number of ranks
-mpirun --oversubscribe ${ext} -np $np ${dir}/hpcg-aarch64.sh  --exec-name ${dir}/xhpcg \
+np=16  #Total number of ranks
+mpirun --oversubscribe ${ext} -np $np ${dir}/hpcg.sh  --exec-name ${dir}/xhpcg \
  --nx $nx --ny $ny --nz $nz --rt 10 --b 0 --exm 0 --p2p 0 \
  --mem-affinity 0:1:2:3 --cpu-affinity 0-71:72-143:144-215:216-287
-
-#2 GraceOnly
-#-----------#
-np=4  #Total number of ranks
-mpirun --oversubscribe ${ext} -np $np ${dir}/hpcg-aarch64.sh  --exec-name ${dir}/xhpcg-cpu \
- --nx $nx --ny $ny --nz $nz --rt 10 --b 0 --exm 0 --p2p 0 \
- --mem-affinity 0:1:2:3 --cpu-affinity 0-71:72-143:144-215:216-287
-
-#3 Hetrogeneous (GPU + Grace)
-#----------------------------#
-np=8  #Total number of ranks (4GPU + 4Grace)
-exm=2 #Execution mode GPU+Grace
-diff_dim=2 #different dim between GPU and Grace is Y
-lpm=1 #Local problem mode (nx/ny/nz are local to GPU, g2c is the Grace different dimension)
-g2c=64 #Based on dif_dim=2 and lpm=1 --> Grace rank local problem size is $nx x $g2c x $nz
-
-#3D grid size 4x2x1 (must be equal to np)
-npx=4 #number of ranks in the x direction
-npy=2 #number of ranks in the y direction
-npz=1 #number of ranks in the z direction
-mpirun --oversubscribe ${ext} -np $np ${dir}/hpcg-aarch64.sh  --exec-name ${dir}/xhpcg \
- --nx $nx --ny $ny --nz $nz --rt 10 --b 0 --p2p 0 --exm $exm --lpm $lpm --g2c $g2c --ddm $diff_dim --npx $npx --npy $npy --npz $npz \
- --mem-affinity 0:0:1:1:2:2:3:3 --cpu-affinity 0-7:8-71:72-79:80-143:144-151:152-215:216-223:224-287
