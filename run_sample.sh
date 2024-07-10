@@ -58,6 +58,8 @@ nx=256 #Large problem size x, assumed for the GPU
 ny=1024 #Large problem size y, assumed for the GPU
 nz=288 #Large problem size z, assumed for the GPU
 
+module load nvhpc
+
 #1 GPUOnly
 #---------#
 np=16  #Total number of ranks
