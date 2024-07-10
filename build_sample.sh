@@ -19,23 +19,23 @@ export CXX_PATH=/usr
 export PATH=${CXX_PATH}/bin:${PATH}
 
 if [[ -z "${MPI_PATH}" ]]; then
-    export MPI_PATH=/path/to/mpi #Change this to correct MPI path
+    export MPI_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/mpi #Change this to correct MPI path
 fi
 
-if [[ -z "${CUDA_PATH}" ]]; then
-    export MATHLIBS_PATH=/path/to/mathlibs #Change this to correct CUDA mathlibs
+if [[ -z "${MATHLIBS_PATH}" ]]; then
+    export MATHLIBS_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/math_libs #Change this to correct CUDA mathlibs
 fi
 
 if [[ -z "${NCCL_PATH}" ]]; then
-    export NCCL_PATH=/path/to/nccl #Change to correct NCCL path
+    export NCCL_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/nccl #Change to correct NCCL path
 fi
 
 if [[ -z "${CUDA_PATH}" ]]; then
-    export CUDA_PATH=/path/to/cuda #Change this to correct CUDA path
+    export CUDA_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda #Change this to correct CUDA path
 fi
 
 if [[ -z "${NVPL_SPARSE_PATH}" ]]; then
-    export NVPL_SPARSE_PATH=/path/to/nvpllibs #Change this to correct NVPL mathlibs
+    export NVPL_SPARSE_PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/math_libs/12.4/targets/x86_64-linux #Change this to correct NVPL mathlibs
 fi
 
 export PATH=${CUDA_PATH}/bin:${PATH}
@@ -50,27 +50,18 @@ cd build
 # 1:         Yes
 # O:         No 
 export USE_CUDA=1
-if [[ $5 == "0" ]]; then
-    export USE_CUDA=0
-fi
 ################################################
 
 ######## USE Grace CPU? ############
 # 1:         Yes
 # O:         No 
-export USE_GRACE=1
-if [[ $6 == "0" ]]; then
-    export USE_GRACE=0
-fi
+export USE_GRACE=0
 ################################################
 
 ######## USE NCCL? ############
 # 1:         Yes
 # O:         No 
 export USE_NCCL=1
-if [[ $7 == "0" ]]; then
-    export USE_NCCL=0
-fi
 ################################################
 
 if [[ $USE_GRACE == 1 ]]; then
