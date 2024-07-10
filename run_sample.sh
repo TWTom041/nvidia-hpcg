@@ -63,6 +63,6 @@ module load nvhpc
 #1 GPUOnly
 #---------#
 np=16  #Total number of ranks
-mpirun --oversubscribe ${ext} -np $np ${dir}/hpcg.sh  --exec-name ${dir}/xhpcg \
- --nx $nx --ny $ny --nz $nz --rt 10 --b 0 --exm 0 --p2p 0 \
+mpirun -np $np ${dir}/hpcg.sh  --exec-name ${dir}/xhpcg \
+ --b 0 --p2p 4 \
  --mem-affinity 0:1:2:3 --cpu-affinity 0-71:72-143:144-215:216-287
