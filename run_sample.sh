@@ -49,7 +49,7 @@ export LD_LIBRARY_PATH=${NVPL_SPARSE}/lib:${LD_LIBRARY_PATH}
 ext="--mca pml ^ucx --mca btl ^openib,smcuda -mca coll_hcoll_enable 0 -x coll_hcoll_np=0 --bind-to none"
 
 #Directory to xhpcg binary
-dir="bin/"
+dir="bin"
 
 #Sample on Grace Hopper x4
 ###########################
